@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Alien Gambit Chess</title>
+  <link rel="stylesheet" href="https://unpkg.com/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: #0a0a23;
+      color: #fff;
+    }
+    #board {
+      width: 400px;
+      margin: 20px auto;
+    }
+    #info {
+      font-size: 1.2em;
+    }
+    #clock {
+      font-size: 1.5em;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Alien Gambit Chess</h1>
+  <div id="info">Loading gambit...</div>
+  <div id="board"></div>
+  <div id="clock">Time Left: <span id="time">300</span>s</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+  <script src="https://unpkg.com/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+  <script>
+    const gambits = [
+      {
+        name: "Alien Gambit Main Line",
+        fen: "rnbq1b1r/pp2pkp1/2p2n1p/8/3P4/8/PPP2PPP/R1BQKBNR w KQ - 0 7"
+      },
+      {
+        name: "Bonjour Variation",
+        fen: "rnbq1b1r/ppp2kp1/4pn1p/8/3P4/8/PPP2PPP/R1BQKBNR w KQ - 0 7"
+      },
+      {
+        name: "Viking Variation",
+        fen: "rnbq1b1r/ppp1pkp1/5n1p/8/8/8/PPPP1PPP/R1BQKBNR w KQ - 0 6"
+      },
+      {
+        name: "Martian Gambit",
+        fen: "rn1qkbnr/pp2p1p1/2p1p1bp/8/3P4/5N2/PPP2PPP/R1BQKB1R w KQkq - 0 8"
+      }
+    ];
+
+    const selected = gambits[Math.floor(Math.random() * gambits.length)];
+    document.getElementById('info').innerText = `Gambit: ${selected.name}`;
+
+    const board = Chessboard('board', {
+      position: selected.fen,
+      orientation: 'white',
+      draggable: true,
+    });
+
+    const game = new Chess(selected.fen);
+
+    // Simple move handling
+    board.onDrop = function (source, target, piece, newPos, oldPos, orientation) {
+      const move = game.move({ from: source, to: target, promotion: 'q' });
+      if (move === null) return 'snapback';
+    };
+
+    // Timer (5 minutes = 300s)
+    let timeLeft = 300;
+    const timer = setInterval(() => {
+      timeLeft--;
+      document.getElementById('time').innerText = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        alert('Time is up!');
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
