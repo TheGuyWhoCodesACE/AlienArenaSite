@@ -3,82 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <title>Alien Gambit Chess</title>
-  <link rel="stylesheet" href="https://unpkg.com/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
   <style>
     body {
-      font-family: sans-serif;
+      background-color: #0d0d0d;
+      color: #33ffcc;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
-      background: #0a0a23;
-      color: #fff;
+      padding: 40px;
     }
-    #board {
-      width: 400px;
-      margin: 20px auto;
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
     }
-    #info {
-      font-size: 1.2em;
+
+    button {
+      background-color: #222;
+      border: 2px solid #33ffcc;
+      color: #33ffcc;
+      padding: 12px 24px;
+      margin: 10px;
+      font-size: 1.1em;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background-color 0.3s;
     }
-    #clock {
-      font-size: 1.5em;
-      margin-top: 10px;
+
+    button:hover {
+      background-color: #33ffcc;
+      color: #0d0d0d;
+    }
+
+    #username {
+      margin-top: 20px;
+      font-size: 1.3em;
+      font-weight: bold;
+    }
+
+    footer {
+      margin-top: 60px;
+      font-size: 0.9em;
+      color: #888;
     }
   </style>
 </head>
 <body>
+
   <h1>Alien Gambit Chess</h1>
-  <div id="info">Loading gambit...</div>
-  <div id="board"></div>
-  <div id="clock">Time Left: <span id="time">300</span>s</div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-  <script src="https://unpkg.com/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+  <button onclick="window.location.href='learn.php'">Learn Alien Gambit</button>
+  <button onclick="generateUsername()">Auto-Assign Username</button>
+  <button onclick="window.location.href='playbots.php'">Play Bots</button>
+
+  <p id="username"></p>
+
+  <footer>
+    &copy; 2025 Alien Arenas. All rights reserved.
+  </footer>
+
   <script>
-    const gambits = [
-      {
-        name: "Alien Gambit Main Line",
-        fen: "rnbq1b1r/pp2pkp1/2p2n1p/8/3P4/8/PPP2PPP/R1BQKBNR w KQ - 0 7"
-      },
-      {
-        name: "Bonjour Variation",
-        fen: "rnbq1b1r/ppp2kp1/4pn1p/8/3P4/8/PPP2PPP/R1BQKBNR w KQ - 0 7"
-      },
-      {
-        name: "Viking Variation",
-        fen: "rnbq1b1r/ppp1pkp1/5n1p/8/8/8/PPPP1PPP/R1BQKBNR w KQ - 0 6"
-      },
-      {
-        name: "Martian Gambit",
-        fen: "rn1qkbnr/pp2p1p1/2p1p1bp/8/3P4/5N2/PPP2PPP/R1BQKB1R w KQkq - 0 8"
-      }
-    ];
-
-    const selected = gambits[Math.floor(Math.random() * gambits.length)];
-    document.getElementById('info').innerText = `Gambit: ${selected.name}`;
-
-    const board = Chessboard('board', {
-      position: selected.fen,
-      orientation: 'white',
-      draggable: true,
-    });
-
-    const game = new Chess(selected.fen);
-
-    // Simple move handling
-    board.onDrop = function (source, target, piece, newPos, oldPos, orientation) {
-      const move = game.move({ from: source, to: target, promotion: 'q' });
-      if (move === null) return 'snapback';
-    };
-
-    // Timer (5 minutes = 300s)
-    let timeLeft = 300;
-    const timer = setInterval(() => {
-      timeLeft--;
-      document.getElementById('time').innerText = timeLeft;
-      if (timeLeft <= 0) {
-        clearInterval(timer);
-        alert('Time is up!');
-      }
-    }, 1000);
+    function generateUsername() {
+      const adjectives = ["Cosmic", "Galactic", "Warped", "Radiant", "Nebular"];
+      const creatures = ["Pawn", "Knight", "Bishop", "Alien", "Commander"];
+      const randAdj = adjectives[Math.floor(Math.random() * adjectives.length)];
+      const randCreature = creatures[Math.floor(Math.random() * creatures.length)];
+      const username = randAdj + randCreature + Math.floor(Math.random() * 1000);
+      document.getElementById("username").textContent = "Username: " + username;
+    }
   </script>
+
 </body>
 </html>
