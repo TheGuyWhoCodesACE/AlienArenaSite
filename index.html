@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Alien Gambit Chess</title>
+  <title>Alien Arenas</title>
   <style>
     body {
       background-color: #0d0d0d;
@@ -14,7 +14,7 @@
 
     h1 {
       font-size: 3em;
-      margin-bottom: 20px;
+      margin-bottom: 40px;
     }
 
     button {
@@ -22,10 +22,10 @@
       border: 2px solid #33ffcc;
       color: #33ffcc;
       padding: 12px 24px;
-      margin: 10px;
-      font-size: 1.1em;
+      font-size: 1.2em;
       cursor: pointer;
       border-radius: 8px;
+      margin-top: 20px;
       transition: background-color 0.3s;
     }
 
@@ -34,43 +34,74 @@
       color: #0d0d0d;
     }
 
-    #username {
-      margin-top: 20px;
-      font-size: 1.3em;
-      font-weight: bold;
-    }
-
     footer {
       margin-top: 60px;
       font-size: 0.9em;
       color: #888;
     }
+
+    #usernameDisplay {
+      font-size: 1.5em;
+      margin-top: 20px;
+      color: #ffcc33;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 1.2em;
+      border: 1px solid #33ffcc;
+      background-color: #222;
+      color: #33ffcc;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
   </style>
+
+  <script>
+    // Check if a username is already stored in localStorage
+    window.onload = function() {
+      const savedUsername = localStorage.getItem("username");
+      if (savedUsername) {
+        document.getElementById("usernameDisplay").innerText = "Your Username: " + savedUsername;
+      } else {
+        document.getElementById("usernameDisplay").innerText = "No username saved.";
+      }
+    }
+
+    // Function to save the username to localStorage
+    function saveUsername() {
+      const username = document.getElementById("usernameInput").value;
+      if (username) {
+        localStorage.setItem("username", username);  // Save to localStorage
+        document.getElementById("usernameDisplay").innerText = "Your Username: " + username;
+        alert("Username saved!");
+      } else {
+        alert("Please enter a valid username.");
+      }
+    }
+  </script>
 </head>
 <body>
 
-  <h1>Alien Gambit Chess</h1>
+  <h1>Welcome to Alien Arenas</h1>
 
   <button onclick="window.location.href='learn.html'">Learn Alien Gambit</button>
-  <button onclick="generateUsername()">Auto-Assign Username</button>
   <button onclick="window.location.href='playbots.html'">Play Bots</button>
+  <button onclick="window.location.href='index.html'">Home</button>
+  <button onclick="window.location.href='games.html'">Play Games</button> <!-- Play Games Button -->
 
-  <p id="username"></p>
+  <div>
+    <h3>Choose your Username:</h3>
+    <input type="text" id="usernameInput" placeholder="Enter username">
+    <button onclick="saveUsername()">Save Username</button>
+  </div>
+
+  <p id="usernameDisplay"></p> <!-- Display saved username -->
 
   <footer>
-    &copy; 2025 Alien Arenas. All rights reserved.
+    <p>&copy; 2025 Alien Arenas</p>
   </footer>
-
-  <script>
-    function generateUsername() {
-      const adjectives = ["Cosmic", "Galactic", "Warped", "Radiant", "Nebular"];
-      const creatures = ["Pawn", "Knight", "Bishop", "Alien", "Commander"];
-      const randAdj = adjectives[Math.floor(Math.random() * adjectives.length)];
-      const randCreature = creatures[Math.floor(Math.random() * creatures.length)];
-      const username = randAdj + randCreature + Math.floor(Math.random() * 1000);
-      document.getElementById("username").textContent = "Username: " + username;
-    }
-  </script>
 
 </body>
 </html>
